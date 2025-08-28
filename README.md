@@ -1,4 +1,8 @@
 # nursing-empathy-evaluation
+
+[![Streamlit App](https://img.shields.io/badge/Streamlit-Live%20App-brightgreen)](https://your-deployment-link-here)
+
+> **Live App:** [https://your-deployment-link-here](https://your-deployment-link-here)
   
 ## System Requirement: ffmpeg
 
