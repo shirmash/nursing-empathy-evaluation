@@ -1,6 +1,5 @@
 streamlit
 openai
-whisper
+openai-whisper
 pydub
 Levenshtein
-pyaudio
