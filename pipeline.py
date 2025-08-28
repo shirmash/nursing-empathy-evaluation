@@ -59,14 +59,14 @@ def transcribe_chunks(chunks, model_name="large"):
             logprob_threshold=-1.0,
         )
         for segment in result["segments"]:
-            text = segment['text'].strip()
+            text = str(segment['text']).strip()
             if not is_valid_segment(text, recent_segments):
                 continue
-            if text in [line.split('] ', 1)[1] for line in transcript[-3:] if '] ' in line]:
+            if text in [str(line.split('] ', 1)[1]) for line in transcript[-3:] if '] ' in line]:
                 continue
             start_time = format_time(segment['start'] + offset)
             line = f"[{start_time}] {text}"
-            transcript.append(line)
+            transcript.append(str(line))
             recent_segments.append(text)
             if len(recent_segments) > 10:
                 recent_segments.pop(0)
