@@ -3,3 +3,4 @@ openai
 openai-whisper
 pydub
 Levenshtein
+pyaudioop
