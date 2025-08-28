@@ -26,12 +26,13 @@ def format_time(seconds):
     return str(timedelta(seconds=int(seconds)))
 
 def is_valid_segment(text, previous_segments, min_length=3, similarity_threshold=0.8):
-    text = text.strip()
+    text = str(text).strip()
     if len(text) < min_length:
         return False
     if text.replace('.', '').replace(',', '').replace('?', '').replace('!', '').strip() == '':
         return False
     for prev_text in previous_segments[-5:]:
+        prev_text = str(prev_text)
         similarity = Levenshtein.ratio(text.lower(), prev_text.lower())
         if similarity > similarity_threshold:
             return False
@@ -79,11 +80,11 @@ def remove_duplicate_lines(transcript, similarity_threshold=0.85):
     cleaned_transcript = [transcript[0]]
     for i in range(1, len(transcript)):
         current_line = transcript[i]
-        current_text = current_line.split('] ', 1)[1] if '] ' in current_line else current_line
+        current_text = str(current_line.split('] ', 1)[1] if '] ' in current_line else current_line)
         is_duplicate = False
         for j in range(max(0, len(cleaned_transcript) - 3), len(cleaned_transcript)):
             prev_line = cleaned_transcript[j]
-            prev_text = prev_line.split('] ', 1)[1] if '] ' in prev_line else prev_line
+            prev_text = str(prev_line.split('] ', 1)[1] if '] ' in prev_line else prev_line)
             if current_text == prev_text:
                 is_duplicate = True
                 break
