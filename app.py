@@ -4,7 +4,7 @@ import tempfile
 import os
 from pipeline import pipeline_for_video
 from gpt_utils import combine_transcripts_with_gpt, assess_transcript_quality
-
+   
 st.set_page_config(page_title="Nursing Student Simulation Transcription & Assessment", layout="wide")
 
 # --- Custom CSS for a prettier design ---
