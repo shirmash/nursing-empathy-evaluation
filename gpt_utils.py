@@ -1,11 +1,10 @@
-# gpt_utils.py — Python 3.8 safe + OpenAI v1 SDK, forced to GPT-4o
-# pip install --upgrade openai
+# gpt_utils.py — Python 3.8+ safe, OpenAI v1 SDK, forced GPT-4o
 
 from typing import List
 from openai import OpenAI
 import re
 
-# === Hebrew Empathy Evaluation ===
+# === Hebrew Empathy Evaluation (no "חוזקות" wording; requires what lowered/missing) ===
 EMPATHY_PROMPT_TEMPLATE = r"""
 את/ה בוחן/ת איכות תקשורת של סטודנטית לסיעוד בתרגול סימולציה.
 
@@ -16,7 +15,6 @@ EMPATHY_PROMPT_TEMPLATE = r"""
 הוראות:
 1) קרא/י את התמליל (הסופי והמאוחד).
 2) אל תוסיף/י תוכן שלא מופיע בטקסט.
-3) בנימוקים יש לציין בקצרה גם **מה הוריד את הציון או מה היה חסר** (למשל: מעט/בלי הכרה ברגש; אין שיקוף; ללא הזמנה לשיתוף; היעדר הבטחת זמינות; טון פקודי/מהיר מדי).
 
 פלט מבוקש (שורה אחת בלבד):
 שפה אמפתית: [ציון 1–5] – [נימוקים קצרים עם ציטוטים רלוונטיים מהשורות של Nurse. יש לזכור שאיסוף מידע רפואי ומתן טיפול הם חלק טבעי מהמפגש, ולכן אינם מורידים מהציון. ההערכה מתמקדת בשאלה האם שולבו גם ביטויים של שפה אמפתית כגון הכרה ברגש, נרמול, שיקוף, הזמנה לשיתוף והבטחת זמינות.]
@@ -70,7 +68,9 @@ def _build_merge_prompt(transcripts: List[str]) -> str:
     return "\n".join(parts)
 
 def combine_transcripts_with_gpt(transcripts, api_key):
-    """Merge transcripts into a single clean, role-tagged transcript (GPT-4o)."""
+    """
+    Merge multiple transcripts into a single clean, role-tagged transcript (GPT-4o).
+    """
     prompt = _build_merge_prompt(transcripts)
     client = _client(api_key)
     resp = client.chat.completions.create(
@@ -85,7 +85,9 @@ def combine_transcripts_with_gpt(transcripts, api_key):
     return resp.choices[0].message.content.strip()
 
 def assess_transcript_quality(final_transcript: str, api_key: str):
-    """Evaluate empathy using the Hebrew template (GPT-4o). Returns ONE line."""
+    """
+    Evaluate Hebrew empathetic language (one line) using the template above (GPT-4o).
+    """
     client = _client(api_key)
     user_prompt = EMPATHY_PROMPT_TEMPLATE.format(final_transcript=final_transcript)
     resp = client.chat.completions.create(
@@ -98,4 +100,6 @@ def assess_transcript_quality(final_transcript: str, api_key: str):
         max_tokens=600,
     )
     text = resp.choices[0].message.content.strip()
-    return re.sub(r'\s*\n+\s*', ' ', text)
+    # normalize to one line
+    text = re.sub(r'\s*\n+\s*', ' ', text)
+    return text

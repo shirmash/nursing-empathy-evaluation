@@ -12,7 +12,36 @@ Replace this with your deployed URL (optional):
 https://your-deployment-link-here
 ```
 
----
+## How it works (quick guide)
+
+1) **Upload** your simulation recording(s) — MP4/MOV/WEBM/MKV/MP3/WAV/M4A.  
+2) **Enter your OpenAI key** in the left sidebar.  
+3) Click **Transcribe (and auto-combine)**.  
+   - The app turns each file into text and **merges everything** into one clean, time-ordered conversation with roles: **Nurse / Patient** (OOC if needed).  
+4) Review the **Combined Transcript** (you can download it as `.txt`).  
+5) (Optional) Click **Assess empathy (GPT-4o)** to get a **1–5 score** with a short reason focused on the nurse’s lines.
+
+**What you get**
+- A clear transcript for debriefs (no raw chunks shown).
+- A quick empathy check on the nurse’s communication.
+
+**Tips**
+- Multiple uploads are fine — they’ll be stitched into one timeline.  
+- Very long/quiet audio may be harder to transcribe; check the text and edit if needed.  
+- Keep patient privacy in mind when sharing transcripts.
+
+
+> **Heads-up:** Transcripts are auto-generated and can miss a word here or there. Use your clinical judgment and correct anything that looks off.
+
+
+- **OpenAI API key** – required for:
+  - **Combine**: merges all transcripts into a single, time-ordered Nurse/Patient conversation (uses **GPT-4o**).
+  - **Empathy check**: 1–5 score with brief justification focused on the nurse’s lines (uses **GPT-4o**).
+
+**How to create an API key (official guide):**  
+See OpenAI’s step-by-step “Create and export an API key” instructions.  
+https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
+
 
 ## Features
 - 🎙️ **Speech-to-text:** Uses OpenAI **gpt-4o-transcribe** to convert video/audio to text.
