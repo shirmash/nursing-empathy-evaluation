@@ -39,7 +39,7 @@ def extract_audio_ffmpeg(video_path: str) -> str:
     """
     out_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
     import subprocess
-    cmd = [ff, "-y", "-i", video_path, "-ac", "1", "-ar", "16000", out_wav]
+    cmd = [ffmpeg, "-y", "-i", video_path, "-ac", "1", "-ar", "16000", out_wav]
     subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return out_wav
 
