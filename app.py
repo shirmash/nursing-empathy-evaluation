@@ -1,114 +1,173 @@
+import os
+import tempfile
+from pathlib import Path
+from typing import List, Tuple
 
 import streamlit as st
-import tempfile
-import os
-from pipeline import pipeline_for_video
-from gpt_utils import combine_transcripts_with_gpt, assess_transcript_quality
-   
-st.set_page_config(page_title="Nursing Student Simulation Transcription & Assessment", layout="wide")
 
-# --- Custom CSS for a prettier design ---
-st.markdown(
-    """
-    <style>
-    .main {
-        background-color: #f7fafc;
-    }
-    .stApp {
-        background: linear-gradient(120deg, #e0f7fa 0%, #fce4ec 100%);
-    }
-    .title-text {
-        font-size: 2.6rem;
-        font-weight: 700;
-        color: #1976d2;
-        margin-bottom: 0.5em;
-        text-align: center;
-    }
-    .subtitle-text {
-        font-size: 1.3rem;
-        color: #333;
-        text-align: center;
-        margin-bottom: 2em;
-    }
-    .stButton>button {
-        background-color: #1976d2;
-        color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        padding: 0.5em 1.5em;
-    }
-    .stDownloadButton>button {
-        background-color: #43a047;
-        color: white;
-        font-weight: bold;
-        border-radius: 8px;
-        padding: 0.5em 1.5em;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+# Text models utilities (updated to GPT-4o)
+from gpt_utils import combine_transcripts_with_gpt, assess_transcript_quality
+
+# Optional local pipeline (keep if you still want it)
+try:
+    from pipeline import pipeline_for_video  # your existing local Whisper path
+except Exception:
+    pipeline_for_video = None
+
+# ------------- OpenAI STT (forced to gpt-4o-transcribe) -------------
+def _openai_client(api_key: str):
+    from openai import OpenAI
+    return OpenAI(api_key=api_key)
+
+def transcribe_with_openai_single(file_path: str, api_key: str) -> str:
+    client = _openai_client(api_key)
+    with open(file_path, "rb") as f:
+        resp = client.audio.transcriptions.create(
+            model="gpt-4o-transcribe",   # forced (no mini)
+            file=f,
+            response_format="text",
+        )
+    return str(resp)
+
+def extract_audio_ffmpeg(video_path: str) -> str:
+    out_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
+    import subprocess
+    cmd = ["ffmpeg", "-y", "-i", video_path, "-ac", "1", "-ar", "16000", out_wav]
+    subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    return out_wav
+
+def split_audio(audio_path: str, chunk_len_ms: int = 5 * 60 * 1000) -> List[Tuple[str, int]]:
+    from pydub import AudioSegment
+    audio = AudioSegment.from_file(audio_path)
+    chunks: List[Tuple[str, int]] = []
+    for i in range(0, len(audio), chunk_len_ms):
+        segment = audio[i:i+chunk_len_ms]
+        fp = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
+        segment.export(fp, format="wav")
+        chunks.append((fp, i // 1000))
+    return chunks
+
+def transcribe_long_with_openai(video_path: str, api_key: str) -> List[str]:
+    def _fmt_time(seconds: int) -> str:
+        h = seconds // 3600
+        m = (seconds % 3600) // 60
+        s = seconds % 60
+        return f"{h:02d}:{m:02d}:{s:02d}"
+    audio_path = extract_audio_ffmpeg(video_path)
+    try:
+        chunks = split_audio(audio_path)
+        lines: List[str] = []
+        for chunk_path, start_sec in chunks:
+            try:
+                txt = transcribe_with_openai_single(chunk_path, api_key)
+                for sent in [s.strip() for s in txt.replace("\r"," ").split("\n") if s.strip()]:
+                    lines.append(f"[{_fmt_time(start_sec)}] {sent}")
+            finally:
+                try: os.remove(chunk_path)
+                except Exception: pass
+        return lines
+    finally:
+        try: os.remove(audio_path)
+        except Exception: pass
+
+# ------------------------- UI -------------------------
+st.set_page_config(page_title="Nursing Simulation: Transcribe & Assess", layout="wide")
+st.title("🩺 Nursing Simulation: Transcribe & Assess")
+st.markdown("""
+> This tool turns your simulation into an easy-to-read conversation and a quick snapshot of empathy. It pulls what was said by Nurse and Patient, cleans overlaps, and then highlights moments of empathetic language—acknowledging feelings, normalizing, reflecting, inviting sharing, and offering availability. It’s not here to judge; it’s here to spotlight what went well and what you can build on in the debrief.
+""")
+
+st.info("Heads-up: The transcript is auto-generated and might miss or mangle a few words. Use your clinical judgment and edit anything that looks off.")
+
+st.sidebar.header("Settings")
+api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+
+# Keep engine toggle if you still want local option; default to OpenAI
+engine = st.sidebar.radio(
+    "Transcription engine",
+    ["OpenAI API (gpt-4o-transcribe)", "Local Whisper (requires GPU)"],
+    index=0
 )
 
-# --- Title and Description ---
-st.markdown('<div class="title-text">🩺 Nursing Student Simulation: Video Transcription & AI Quality Assessment</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle-text">Upload your simulation videos, get accurate transcriptions using Whisper, combine them with GPT, and receive an AI-powered quality assessment. Perfect for nursing education, simulation debrief, and reflective learning.</div>', unsafe_allow_html=True)
+uploaded = st.file_uploader(
+    "Upload one or more simulation video files (MP4/MOV/WEBM/MP3/WAV)",
+    type=["mp4","mov","webm","mkv","mp3","wav","m4a","mpeg4"],
+    accept_multiple_files=True
+)
 
-# --- Sidebar for API Key ---
-st.sidebar.header("🔑 Settings")
-st.sidebar.markdown("Enter your <b>OpenAI API Key</b> to enable transcript combination and assessment.", unsafe_allow_html=True)
-api_key = st.sidebar.text_input("OpenAI API Key", type="password", value=st.session_state.get('api_key', ''))
-if api_key:
-    st.session_state['api_key'] = api_key
+# session state
+if "raw_transcripts" not in st.session_state:
+    st.session_state["raw_transcripts"] = []
+if "combined" not in st.session_state:
+    st.session_state["combined"] = ""
+if "assessment" not in st.session_state:
+    st.session_state["assessment"] = ""
 
-# --- File Uploader ---
-st.markdown("### 1️⃣ Upload Simulation Video Files (MP4)")
-video_files = st.file_uploader("Upload one or more simulation videos (MP4)", type=["mp4"], accept_multiple_files=True, help="You can upload several simulation recordings at once.")
+col1, col2 = st.columns(2)
+with col1:
+    go_btn = st.button("Transcribe (and auto-combine)")
+with col2:
+    assess_btn = st.button("Assess empathy (GPT-4o)")
 
+# --------- Transcribe -> Auto-Combine (no raw shown) ----------
+if go_btn:
+    if not uploaded:
+        st.warning("Please upload at least one file.")
+    elif engine.startswith("OpenAI") and not api_key:
+        st.warning("Enter your OpenAI API key to use the API engine.")
+    elif engine.startswith("Local") and pipeline_for_video is None:
+        st.error("Local Whisper pipeline is not available.")
+    else:
+        st.session_state["raw_transcripts"] = []
+        progress = st.progress(0)
+        for i, f in enumerate(uploaded, start=1):
+            with tempfile.NamedTemporaryFile(delete=False, suffix=Path(f.name).suffix) as tmp:
+                tmp.write(f.getbuffer())
+                tmp_path = tmp.name
+            st.write(f"**Processing:** {f.name}")
+            try:
+                if engine.startswith("OpenAI"):
+                    with st.spinner("Transcribing with OpenAI (gpt-4o-transcribe)..."):
+                        lines = transcribe_long_with_openai(tmp_path, api_key)
+                else:
+                    with st.spinner("Transcribing locally with Whisper ..."):
+                        lines = pipeline_for_video(tmp_path)
+                transcript_text = "\n".join(lines) if isinstance(lines, list) else str(lines)
+                st.session_state["raw_transcripts"].append(transcript_text)
+                st.success(f"Finished: {f.name}")
+            except Exception as e:
+                st.error(f"Failed on {f.name}: {e}")
+            finally:
+                try: os.remove(tmp_path)
+                except Exception: pass
+            progress.progress(i / len(uploaded))
 
-if video_files and api_key:
-    st.markdown("### 2️⃣ Transcription Progress")
-    if 'transcripts' not in st.session_state:
-        st.session_state['transcripts'] = []
-    if st.button("📝 Start Transcription", help="Click to transcribe all uploaded videos."):
-        transcripts = []
-        for idx, uploaded_file in enumerate(video_files):
-            with st.expander(f"Video {idx+1}: {uploaded_file.name}", expanded=True):
-                st.info("Transcribing... This may take a few minutes depending on video length.")
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
-                    tmp.write(uploaded_file.read())
-                    tmp_path = tmp.name
-                try:
-                    transcript_lines = pipeline_for_video(tmp_path)
-                    transcript_text = "\n".join(transcript_lines)
-                    transcripts.append(transcript_text)
-                    st.success(f"Transcription complete for {uploaded_file.name}")
-                    st.text_area("Transcript", transcript_text, height=150)
-                except Exception as e:
-                    st.error(f"Failed to process {uploaded_file.name}: {e}")
-                finally:
-                    os.remove(tmp_path)
-        st.session_state['transcripts'] = transcripts
-
-    if st.session_state.get('transcripts'):
-        st.markdown("### 3️⃣ Combine Transcripts & Assess Quality with GPT")
-        if st.button("🤖 Combine & Assess with GPT", help="Uses your OpenAI key. No data is stored."):
-            with st.spinner("Combining transcripts with GPT..."):
-                combined = combine_transcripts_with_gpt(st.session_state['transcripts'], api_key)
-                st.session_state['combined'] = combined
-                st.subheader("📝 Combined Transcript")
-                st.text_area("Combined Transcript", combined, height=300)
-                st.download_button("⬇️ Download Combined Transcript", combined, file_name="combined_transcript.txt")
-            with st.spinner("Assessing transcript quality with GPT..."):
-                assessment = assess_transcript_quality(combined, api_key)
-                st.session_state['assessment'] = assessment
-                st.subheader("📊 Quality Assessment")
-                st.write(assessment)
-        elif st.session_state.get('combined'):
+        # AUTO-COMBINE with GPT-4o (no raw transcript shown)
+        if not api_key:
+            st.warning("OpenAI API key is required to combine transcripts.")
+        else:
+            with st.spinner("Combining transcripts with GPT-4o..."):
+                st.session_state["combined"] = combine_transcripts_with_gpt(
+                    st.session_state["raw_transcripts"], api_key
+                )
             st.subheader("📝 Combined Transcript")
-            st.text_area("Combined Transcript", st.session_state['combined'], height=300)
-            st.download_button("⬇️ Download Combined Transcript", st.session_state['combined'], file_name="combined_transcript.txt")
-            if st.session_state.get('assessment'):
-                st.subheader("📊 Quality Assessment")
-                st.write(st.session_state['assessment'])
-else:
-    st.info("Please upload simulation video files and enter your OpenAI API key in the sidebar.")
+            st.text_area("Combined", st.session_state["combined"], height=300)
+            st.download_button(
+                "Download combined transcript",
+                st.session_state["combined"].encode("utf-8"),
+                file_name="combined_transcript.txt",
+            )
+
+# --------- Assess (uses GPT-4o) ----------
+if assess_btn:
+    if not st.session_state.get("combined"):
+        st.warning("No combined transcript yet. Click 'Transcribe (and auto-combine)' first.")
+    elif not api_key:
+        st.warning("Enter your OpenAI API key.")
+    else:
+        with st.spinner("Assessing empathy with GPT-4o..."):
+            st.session_state["assessment"] = assess_transcript_quality(
+                st.session_state["combined"], api_key
+            )
+        st.subheader("📊 Empathy Assessment")
+        st.write(st.session_state["assessment"])
