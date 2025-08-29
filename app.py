@@ -3,7 +3,7 @@ import streamlit as st
 
 # Text models utilities (updated to GPT-4o)
 from gpt_utils import combine_transcripts_with_gpt, assess_transcript_quality
-
+import os, tempfile, subprocess
 # Optional local pipeline (keep if you still want it)
 try:
     from pipeline import pipeline_for_video  # your existing local Whisper path
@@ -78,10 +78,9 @@ st.markdown("""
 
 **How to use:** 1) Upload video/audio → 2) Enter your OpenAI key → 3) Click **Transcribe (and auto-combine)** → 4) (Optional) **Assess empathy (GPT-4o)**.
 """)
-st.info("Heads-up: Transcript is auto-generated and may miss a word—use clinical judgment.")
+st.info("Heads-up: Transcript is auto-generated and may not be fully accurate.")
 
 
-st.info("Heads-up: Transcripts are auto-generated and may miss or mangle a few words. Use your clinical judgment and fix anything that looks off.")
 
 st.sidebar.header("Settings")
 api_key = st.sidebar.text_input("OpenAI API Key", type="password")
