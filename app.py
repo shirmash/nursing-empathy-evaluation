@@ -37,7 +37,6 @@ def extract_audio_ffmpeg(video_path: str) -> str:
     """
     Extract mono 16kHz WAV from a video/audio file using ffmpeg.
     """
-    ff = ensure_ffmpeg()
     out_wav = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
     import subprocess
     cmd = [ff, "-y", "-i", video_path, "-ac", "1", "-ar", "16000", out_wav]
@@ -49,7 +48,6 @@ def split_audio(audio_path: str, chunk_len_ms: int = 5 * 60 * 1000) -> List[Tupl
     Split audio into ~5-minute chunks using pydub.
     Returns list of (chunk_file_path, start_offset_seconds)
     """
-    ensure_ffmpeg()  # makes sure pydub picks up the binary
     from pydub import AudioSegment
 
     audio = AudioSegment.from_file(audio_path)
