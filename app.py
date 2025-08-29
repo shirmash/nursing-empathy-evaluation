@@ -74,10 +74,18 @@ def transcribe_long_with_openai(video_path: str, api_key: str) -> List[str]:
 st.set_page_config(page_title="Nursing Simulation: Transcribe & Assess", layout="wide")
 st.title("🩺 Nursing Simulation: Transcribe & Assess")
 st.markdown("""
-> This tool turns your simulation into an easy-to-read conversation and a quick snapshot of empathy. It pulls what was said by Nurse and Patient, cleans overlaps, and then highlights moments of empathetic language—acknowledging feelings, normalizing, reflecting, inviting sharing, and offering availability. It’s not here to judge; it’s here to spotlight what went well and what you can build on in the debrief.
+> This tool is designed to transcribe and evaluate nursing simulations in Hebrew. It turns your recordings into a clear Nurse–Patient transcript and gives a quick score with brief notes on the nurse’s use of empathetic language.
 """)
 
-st.info("Heads-up: The transcript is auto-generated and might miss or mangle a few words. Use your clinical judgment and edit anything that looks off.")
+st.markdown("""
+**What this does:** Transcribes your Hebrew simulation and gives a quick empathy check on the nurse’s lines.
+
+**How to use:** 1) Upload video/audio → 2) Enter your OpenAI key → 3) Click **Transcribe (and auto-combine)** → 4) (Optional) **Assess empathy (GPT-4o)**.
+""")
+st.info("Heads-up: Transcript is auto-generated and may miss a word—use clinical judgment.")
+
+
+st.info("Heads-up: Transcripts are auto-generated and may miss or mangle a few words. Use your clinical judgment and fix anything that looks off.")
 
 st.sidebar.header("Settings")
 api_key = st.sidebar.text_input("OpenAI API Key", type="password")
@@ -130,7 +138,7 @@ if go_btn:
                     with st.spinner("Transcribing with OpenAI (gpt-4o-transcribe)..."):
                         lines = transcribe_long_with_openai(tmp_path, api_key)
                 else:
-                    with st.spinner("Transcribing locally with Whisper ..."):
+                    with st.spinner("Transcribing locally with Whisper (small)..."):
                         lines = pipeline_for_video(tmp_path)
                 transcript_text = "\n".join(lines) if isinstance(lines, list) else str(lines)
                 st.session_state["raw_transcripts"].append(transcript_text)

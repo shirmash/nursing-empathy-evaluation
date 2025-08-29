@@ -1,6 +1,6 @@
 # Nursing Empathy Evaluation
 
-Turn nursing simulation recordings into an easy-to-read conversation and a quick snapshot of empathy.
+This tool is designed to transcribe and evaluate nursing simulations in Hebrew. It turns your recording into a clear Nurse–Patient transcript and gives a quick score with brief notes on the nurse’s use of empathetic language.
 
 > **Heads-up:** Transcripts are auto-generated and might miss or mangle a few words. Use clinical judgment and fix anything that looks off.
 
