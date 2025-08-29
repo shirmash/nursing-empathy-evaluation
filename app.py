@@ -9,7 +9,7 @@ try:
     from pipeline import pipeline_for_video  # your existing local Whisper path
 except Exception:
     pipeline_for_video = None
-
+from typing import List, Tuple
 # ------------- OpenAI STT (forced to gpt-4o-transcribe) -------------
 def _openai_client(api_key: str):
     from openai import OpenAI
