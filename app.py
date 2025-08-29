@@ -127,14 +127,13 @@ api_key_input = st.sidebar.text_input("OpenAI API Key", type="password", value=o
 # Optional local mode toggle (kept for flexibility)
 engine = st.sidebar.radio(
     "Transcription engine",
-    ["OpenAI API (gpt-4o-transcribe)", "Local Whisper (small)"],
+    ["OpenAI API (gpt-4o-transcribe)", "Local Whisper (requires GPU)"],
     index=0
 )
 
 # Reset controls
 st.sidebar.markdown("---")
 reset_all = st.sidebar.button("🔄 Reset app (clear uploads & results)")
-reset_results = st.sidebar.button("🧹 Clear results (keep uploads)")
 
 # Session state
 if "raw_transcripts" not in st.session_state:
@@ -153,11 +152,6 @@ if reset_all:
     st.session_state["upload_key"] += 1  # force uploader to reset
     st.rerun()
 
-if reset_results:
-    st.session_state["raw_transcripts"] = []
-    st.session_state["combined"] = ""
-    st.session_state["assessment"] = ""
-    st.rerun()
 
 # Uploader (keyed so it can reset cleanly)
 uploaded = st.file_uploader(
@@ -196,7 +190,7 @@ if go_btn:
                     with st.spinner("Transcribing with OpenAI (gpt-4o-transcribe)..."):
                         lines = transcribe_long_with_openai(tmp_path, api_key_input)
                 else:
-                    with st.spinner("Transcribing locally with Whisper (small)..."):
+                    with st.spinner("Transcribing locally with Whisper (requires GPU)..."):
                         lines = pipeline_for_video(tmp_path)
 
                 transcript_text = "\n".join(lines) if isinstance(lines, list) else str(lines)
