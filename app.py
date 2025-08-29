@@ -14,21 +14,6 @@ try:
 except Exception:
     pipeline_for_video = None
 
-# ------------------ ffmpeg helper (cloud-safe) ------------------
-def ensure_ffmpeg() -> str:
-    """
-    Ensure an ffmpeg binary exists (downloads a static one if needed).
-    Also wires pydub to use that binary.
-    """
-    import imageio_ffmpeg
-    ff = imageio_ffmpeg.get_ffmpeg_exe()
-    os.environ["IMAGEIO_FFMPEG_EXE"] = ff
-    try:
-        from pydub import AudioSegment
-        AudioSegment.converter = ff
-    except Exception:
-        pass
-    return ff
 
 # ------------------ OpenAI helpers ------------------
 def _openai_client(api_key: str):
