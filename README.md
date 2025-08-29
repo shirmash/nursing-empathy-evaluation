@@ -19,7 +19,7 @@ https://your-deployment-link-here
 - 🧩 **Smart merge:** Combines multiple uploads into a single, timestamped, role-tagged transcript (`Nurse`, `Patient`, with `(OOC)` when needed).
 - 🧠 **Empathy check:** One-line 1–5 score + short justification (Hebrew template) using **GPT-4o**.
 - 💾 **Export:** Download the combined transcript as `.txt`.
-- 🔌 **No local Whisper required:** Works fully with the API; optional local Whisper path can remain in the repo if you want it.
+- 🔌 **local option available** Works fully with the API; optional local Whisper model usage if gpu is available.
 
 ---
 
@@ -91,7 +91,7 @@ imageio-ffmpeg>=0.4.9
 
 ## FFmpeg
 
-- **Cloud:** handled automatically by `imageio-ffmpeg` (no action needed).
+- **Cloud:** no action needed.
 - **Local:** install ffmpeg if missing.
   - **Windows:** download static build from https://www.gyan.dev/ffmpeg/builds/ → extract → add `.../bin` to PATH → `ffmpeg -version`
   - **macOS:** `brew install ffmpeg`
@@ -120,25 +120,3 @@ imageio-ffmpeg>=0.4.9
 
 ---
 
-## Troubleshooting
-
-- `ImportError: from openai import OpenAI` → Upgrade the SDK:
-  ```bash
-  pip install --upgrade openai
-  ```
-- `APIRemovedInV1: ChatCompletion` → Remove any `openai.ChatCompletion.create(...)` calls; this app uses the v1 client:
-  `OpenAI(...).chat.completions.create(...)`.
-- `ffmpeg not found` (local) → Install ffmpeg and ensure it’s in PATH, or rely on `imageio-ffmpeg` in cloud.
-- Empty/partial transcription → very long/quiet file; try re-uploading, check chunking, and verify API quota.
-
----
-
-## Privacy
-
-Only upload material you’re allowed to use. Avoid PHI unless you have explicit consent and follow your policy. Auto-generated transcripts may contain errors—review critically.
-
----
-
-## License
-
-MIT (or your preferred license)
