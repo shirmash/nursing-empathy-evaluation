@@ -59,14 +59,18 @@ def transcribe_chunks(chunks, model_name="large"):
             compression_ratio_threshold=2.4,
             logprob_threshold=-1.0,
         )
+        import streamlit as st
         for segment in result["segments"]:
-            text = str(segment['text']).strip()
+            text = segment['text']
+            st.write(f"DEBUG: segment['text'] value: {text}, type: {type(text)}")
+            text = str(text).strip()
             if not is_valid_segment(text, recent_segments):
                 continue
             if text in [str(line.split('] ', 1)[1]) for line in transcript[-3:] if '] ' in line]:
                 continue
             start_time = format_time(segment['start'] + offset)
             line = f"[{start_time}] {text}"
+            st.write(f"DEBUG: transcript line value: {line}, type: {type(line)}")
             transcript.append(str(line))
             recent_segments.append(text)
             if len(recent_segments) > 10:
