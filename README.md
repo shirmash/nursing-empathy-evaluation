@@ -67,20 +67,6 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 
 ---
 
-## Deploy on Streamlit Cloud
-
-1. Push these files to your repo:
-   - `app.py`
-   - `gpt_utils.py`
-   - `requirements.txt`
-   - `README.md`
-2. Create a new Streamlit app pointing to `app.py`.
-3. Add your secret: **Manage app → Settings → Secrets**
-   ```toml
-   OPENAI_API_KEY="sk-..."
-   ```
-4. Build runs automatically. `imageio-ffmpeg` fetches a static **ffmpeg** at runtime—no manual install needed.
-
 ---
 
 ## Configuration
