@@ -22,7 +22,7 @@ https://nursing-empathy-evaluation-il.streamlit.app/
 
 **What you get**
 - A clear transcript for debriefs (no raw chunks shown).
-- A quick empathy check on the nurse’s communication.
+- A quick empathy score on the nurse’s communication.
 
 **Tips**
 - Multiple uploads are fine — they’ll be stitched into one timeline.  
@@ -55,15 +55,11 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
    ```bash
    pip install -r requirements.txt
    ```
-3. Set your OpenAI key (or use the sidebar in the app):
-   ```bash
-   export OPENAI_API_KEY="sk-..."   # Windows PowerShell: $env:OPENAI_API_KEY="sk-..."
-   ```
-4. Run:
+3. Run:
    ```bash
    streamlit run app.py
    ```
-5. In the app: upload `.mp4/.mov/.webm/.mkv/.mp3/.wav/.m4a`, click **Transcribe (and auto-combine)**, then **Assess empathy (GPT-4o)** if you want the score.
+4. In the app: upload `.mp4/.mov/.webm/.mkv/.mp3/.wav/.m4a`, click **Transcribe (and auto-combine)**, then **Assess empathy (GPT-4o)** if you want the score.
 
 
 ---
