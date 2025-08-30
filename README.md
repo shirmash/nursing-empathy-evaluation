@@ -63,7 +63,7 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 ![Transcribe & Auto-combine](screenshots/02-transcript.png)
 
 ### 3) Empathy Assessment
-*Click **Assess empathy (GPT-4o)** to get a 1–5 score with a short note in Hebrew.*
+*Click **Assess empathy (GPT-4o)** to get a 1–5 score with a short notes.*
 
 ![Empathy Assessment](screenshots/03-empathy.png)
 
