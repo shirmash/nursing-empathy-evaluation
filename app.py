@@ -74,7 +74,6 @@ st.markdown("""
 """)
 
 st.markdown("""
-**What this does:** Transcribes your Hebrew simulation and gives a quick empathy check on the nurse’s lines.
 
 **How to use:** 1) Upload video/audio → 2) Enter your OpenAI key → 3) Click **Transcribe (and auto-combine)** → 4) (Optional) **Assess empathy (GPT-4o)**.
 """)
