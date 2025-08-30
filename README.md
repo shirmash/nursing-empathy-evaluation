@@ -40,11 +40,10 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 
 
 ## Features
--  **Speech-to-text:** Uses OpenAI **gpt-4o-transcribe** to convert video/audio to text.
+-  **Speech-to-text:** Uses OpenAI **gpt-4o-transcribe** to convert video/audio to text,optional local Whisper model usage if gpu is available.
 - **Smart merge:** Combines multiple uploads into a single, timestamped, role-tagged transcript (`Nurse`, `Patient`, with `(OOC)` when needed).
 - **Empathy score:** One-line 1–5 score + short justification (Hebrew template) using **GPT-4o**.
 - **Export:** Download the combined transcript as `.txt`.
-- **local option available** Works fully with the API; optional local Whisper model usage if gpu is available.
 
 ---
 
