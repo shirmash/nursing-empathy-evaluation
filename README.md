@@ -40,17 +40,17 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 
 
 ## Features
-- 🎙️ **Speech-to-text:** Uses OpenAI **gpt-4o-transcribe** to convert video/audio to text.
-- 🧩 **Smart merge:** Combines multiple uploads into a single, timestamped, role-tagged transcript (`Nurse`, `Patient`, with `(OOC)` when needed).
-- 🧠 **Empathy check:** One-line 1–5 score + short justification (Hebrew template) using **GPT-4o**.
-- 💾 **Export:** Download the combined transcript as `.txt`.
-- 🔌 **local option available** Works fully with the API; optional local Whisper model usage if gpu is available.
+-  **Speech-to-text:** Uses OpenAI **gpt-4o-transcribe** to convert video/audio to text.
+- **Smart merge:** Combines multiple uploads into a single, timestamped, role-tagged transcript (`Nurse`, `Patient`, with `(OOC)` when needed).
+- **Empathy score:** One-line 1–5 score + short justification (Hebrew template) using **GPT-4o**.
+- **Export:** Download the combined transcript as `.txt`.
+- **local option available** Works fully with the API; optional local Whisper model usage if gpu is available.
 
 ---
 
 ## Quick start (local)
 
-1. **Python 3.8–3.12** and **ffmpeg** (see FFmpeg below).
+1. **Python 3.10** and **ffmpeg** (see FFmpeg below).
 2. Install deps:
    ```bash
    pip install -r requirements.txt
