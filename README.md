@@ -65,7 +65,6 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
    ```
 5. In the app: upload `.mp4/.mov/.webm/.mkv/.mp3/.wav/.m4a`, click **Transcribe (and auto-combine)**, then **Assess empathy (GPT-4o)** if you want the score.
 
----
 
 ---
 
