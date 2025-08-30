@@ -48,6 +48,27 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 
 ---
 
+## Screenshots
+
+> End-to-end flow: upload → transcribe & auto-combine → empathy score.
+
+### 1) Upload & Setup
+*After adding your OpenAI API key and the video files.*
+
+![Upload & Setup](screenshots/01-setup.png)
+
+### 2) Transcribe & Auto-combine
+*The app processes each file and shows the merged Nurse–Patient transcript.*
+
+![Transcribe & Auto-combine](screenshots/02-transcript.png)
+
+### 3) Empathy Assessment
+*Click **Assess empathy (GPT-4o)** to get a 1–5 score with a short note in Hebrew.*
+
+![Empathy Assessment](screenshots/03-empathy.png)
+
+
+
 ## Quick start (local)
 
 1. **Python 3.10** and **ffmpeg** (see FFmpeg below).
