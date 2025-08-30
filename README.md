@@ -7,7 +7,6 @@ This tool is designed to transcribe and evaluate nursing simulations in Hebrew. 
 ---
 
 ## Live app
-Replace this with your deployed URL (optional):
 ```
 https://nursing-empathy-evaluation-il.streamlit.app/
 ```
