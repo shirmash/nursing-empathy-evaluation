@@ -73,10 +73,6 @@ https://platform.openai.com/docs/quickstart/create-and-export-an-api-key
 - **Models (fixed by this app):**
   - Speech-to-text: `gpt-4o-transcribe`
   - Text (merge + empathy): `gpt-4o`
-- **Behavior:**
-  - Only the **combined** transcript is shown (raw per-file transcripts are hidden).
-  - Role tags are derived from content; do not alternate mechanically.
-- **Environment variable:** `OPENAI_API_KEY` (or paste it in the sidebar).
 
 ---
 
