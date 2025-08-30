@@ -1,0 +1,157 @@
+
+You are reviewing a Hebrew-language nursing simulation dialogue.
+Each of the three transcripts comes from a different camera angle or microphone and may contain only part of the conversation.
+The transcriptions were generated automatically using Whisper, so they may include errors such as:
+- Missing or incomplete sentences
+- Repeated or disfluent phrases
+- Slight timing misalignment
+
+Your task is to reconstruct a **clean, coherent, and chronologically accurate** transcript using the following rules:
+
+1. **Use the timestamps ([HH:MM:SS])** to place lines in the correct order. Reconstruct the conversation sequence based on time, even if the lines appear in different transcripts.
+2. **Do NOT add or imagine content.** Only use what appears in the provided transcripts.
+3. **Fix transcription errors where appropriate, but retain as much of the original information as possible.** Prioritize keeping all clinically or contextually meaningful content from the transcripts, even if phrased imperfectly. Only omit redundant, broken, or clearly meaningless lines.
+4. **Assign speaker roles** based on content and context. Use only these roles:
+   - `Nurse`
+   - `Patient`
+5. Do NOT alternate roles mechanically. Assign roles based on what is said.
+6. If the same line appears in more than one transcript, **merge or choose the clearest version**. Avoid duplication.
+7. Keep the transcript in a natural, readable flow that resembles a real dialogue.
+8. **Fix malformed Hebrew words** when clearly misrecognized (e.g., "להתעברר" → "להתאוורר"), but do not invent content.
+9. Preserve **simulation-side comments** (like when the nurse speaks to herself, to colleagues, or refers to the patient in third person such as “אותה”). These are **in-character clinical planning remarks**, not spoken to the patient. Keep them in the flow and tag them as `Nurse`, not as OOC.
+10. If someone speaks **outside of character (OOC)** — for example, asking instructors, reacting to simulation errors, or breaking the scene — keep the line, and **tag it clearly** as one of:
+    - `Nurse (OOC)`
+    - `Patient (OOC)`
+11. Treat repeated "תודה רבה" at the end or start of the transcripts as likely Whisper artifacts — omit them from the final merged transcript unless clearly part of the dialogue.
+
+Return only the cleaned and role-tagged transcript in the following format:
+[HH:MM:SS] Role: Sentence
+
+Here are the raw transcripts:
+TRANSCRIPT 1:
+[0:00:20] שלום
+[0:00:21] שלום
+[0:00:23] היי אני טל אני אחות פה
+[0:00:25] מה שמח?
+[0:00:27] אני יהודית שינהו
+[0:00:28] כן. איך הפלגישה יהודית? מה קרה?
+[0:00:33] לפני שעה נפלתי בבית. יש לי כאבים נוראיים ברגל.
+[0:00:40] אוקיי. מתי התחילו הכאבים ברגל?
+[0:00:44] מיד אחרי שנפלתי.
+[0:00:46] אוקיי. ומה קרה לפני שנפלת? את זוכרת יהודי?
+[0:00:51] קמתי, רציתי להכין איכוז תה, ומצאתי את עצמי על הרצפה.
+[0:00:55] כשכאן תרגשת שרחורת, רגל שחור?
+[0:01:01] פשוט פוצעתי את עצמי על הרצפה ויש לי כאבים לטופים ברגל
+[0:01:09] אוקיי, אני רוצה לראות את הרגל שלך אם אפשר
+[0:01:13] בבקשה, אני
+[0:01:14] איזה רגל זו?
+[0:01:18] זה הרגל של ידך
+[0:01:21] הרגל הזו תימנית?
+[0:01:24] בדיוק
+[0:01:24] אוקיי, מי שם לך את החבישה, יודית?
+[0:01:27] שמו לי באגלנס, לא יודעת אם אני צריכה את זה בכלל.
+[0:01:32] אוקיי.
+[0:01:34] אני רוצה גם לשאול אותך, יודית, יש לך איזשהן מחלות ברקע, מה שצובלת?
+[0:01:41] כן, כמו לכל אחד בגילים.
+[0:01:43] קצת לחסדה, קצת קולסטרון.
+[0:01:47] אוקיי, סוכרת?
+[0:01:49] לא, אין לי.
+[0:01:51] איזה תרופות את לוקחת בבית?
+[0:01:54] יש לי את החומה ללחץ דם ואת הברודה לקולסטרון.
+[0:02:00] אוקיי, אמנתי. אני רוצה רגע לעשות את החבישיים, כואב לך מאוד משהו? תגיד לי בסדר?
+[0:02:07] מאוד מאוד כואב לי, מאוד מאוד.
+[0:02:10] את יודעת ככה שאני נוגעת כואב?
+[0:02:12] כן, כל זוזה מאוד מחיגה לי.
+[0:02:16] אוקיי, טוב. נראה לי צריך איזשהו משקך כאבים. יש לך איזשהם אלרגיות?
+[0:02:22] לא, אין לי רגישות.
+[0:02:34] אני מאוד מודה לך שאתה נסע לדאוג לי ככה
+[0:02:38] ממש חמודה
+[0:02:40] כן בטח, אני מאוד אכפת לנו פה
+[0:02:43] מה שקרה, היה מישהו איתך בבית כשנפלת?
+[0:02:58] לא שמעת אותי יותר
+[0:03:00] אני שמעת את עצמי
+[0:03:02] אז אני שמעת את לא שמעת
+[0:03:04] הייתי לבן
+[0:03:06] והמטפלת שלי בדיוק יצאה לסידורים
+[0:03:14] הבנתי
+[0:03:16] והמטפלת היא מטפלת
+[0:03:17] כל הזמן?
+[0:03:18] היא המטפלת שנמצאת איתי כל הזמן
+[0:03:20] אני נמצאת לה מדי פעם להתעברר כזה
+[0:03:23] אוקיי, ואיך המשפחה שלך?
+[0:03:28] ילדים, גאים?
+[0:03:29] יש לי בנים, חמסימים
+[0:03:31] יש לי דברים רחוק ממני
+[0:03:33] אוקיי, הם באים לבקר?
+[0:03:36] הם באים לבקר?
+[0:03:38] הם באים מדי פעם לבקר
+[0:03:40] קצת קשה להם, הם רחוקים
+[0:03:42] בסדר, הבנתי
+[0:03:49] אני רוצה לבדוק את הרגל, אבל אני צריכה למשק רגלים חזקים איתה.
+[0:03:56] תודה. אנחנו הולכים למסיים כאן, זה בספיק מי.
+[0:04:00] סניה?
+[0:04:02] אני שולחת לך עוד שאלות, עוד מציאות.
+[0:04:05] יאללה, אני מחפשת את זה.
+[0:04:07] זה אגובה מאוד מציאותי.
+[0:04:10] נכון.
+[0:04:11] זה חלק מהעניין בגלל...
+
+
+TRANSCRIPT 2:
+
+
+TRANSCRIPT 3:
+[0:00:21] שלום שלום היי אני טל אני אחות פה מה שמח?
+[0:00:26] אני יהודית שינהר.
+[0:00:30] איך את רגישה יהודית? מה קרה?
+[0:00:33] לפני שעה נפלתי בבית. יש לי כאבים נוראיים ברגל.
+[0:00:40] מתי התחילו הכאבים ברגל?
+[0:00:44] מיד אחרי שנפלתי.
+[0:00:47] ומה קרה לפני שנפלת? זוכרת יהודי?
+[0:00:51] קמתי, רציתי להכין לי קוס תה ומצאתי את עצמי על הרצפה
+[0:00:56] כשקמת הרגשת שחורת, ריק שחור
+[0:01:01] פשוט פצעתי את עצמי על הרצפה ויש לי כאבים מטוסים ברגל
+[0:01:09] אוקיי, אני רוצה רגל לראות את הרגל שלך אם אפשר
+[0:01:13] בבקשה, אני
+[0:01:15] איזה רגל זו?
+[0:01:18] זה הרגל של ידך
+[0:01:20] אוקיי. הרגל הזאת האמנית?
+[0:01:24] בדיוק.
+[0:01:25] אוקיי. מי שם לך את החבישה, יודית?
+[0:01:27] שמו לי באמבולנס. לא יודעת אם אני צריכה את זה בכלל.
+[0:01:32] אוקיי. אני רוצה גם לשאול אותך, יודית, יש לך איזשהן מחלות ברקע, מה שצובלת?
+[0:01:41] כן, כמו לכל אחד בגילים. קצת לחצתן, קצת קולסטרון.
+[0:01:47] אוקיי. סוכרת?
+[0:01:48] לא אין לי
+[0:01:50] איזה תרופות את לוקחת בבית?
+[0:01:55] יש לי את החומה ללחץ דם ואת הברודה לקולסטרון
+[0:01:59] אוקיי, הבנתי
+[0:02:01] אני רוצה רגע לעשות את החבישיים, כואב לך מאוד משהו?
+[0:02:06] תגידי בסדר
+[0:02:06] מאוד מאוד כואב לי, מאוד מאוד
+[0:02:10] בגלל ככה שאני נוגעת כואב?
+[0:02:12] כן, כל זוזה מאוד מחיבה לי
+[0:02:16] אוקיי, טוב, נראה לי צריך איזשהו משקח כאבים.
+[0:02:20] יש לך איזה שהם אלרגיות?
+[0:02:22] לא, אין לי רגישות.
+[0:02:30] בסדר.
+[0:02:35] אני מאוד מודה לך שאתה נסע לדאוג לי ככה.
+[0:02:38] ממש חמודה.
+[0:02:41] כן, בטח, מאוד אכפת לנו פה.
+[0:02:43] או, מה שקרה, היה מישהו איתך בבית כשנפלת?
+[0:02:52] אני אוהב לא...
+[0:02:54] לא שמעת אותי יותר.
+[0:03:00] אני שמעת את עצמי, אז אני שמעת את לא שמעתי.
+[0:03:04] הייתי לבן, והמטפל שלי בדיוק יצא לסידורים.
+[0:03:13] אה, הבנתי. והמטפלת היא מטפלת כל הזמן?
+[0:03:18] היא המטפלת שניתן איתי כל הזמן. אני ניתן אותה מידי פעם להתעברר כזה.
+[0:03:25] אוקיי, ואיך המשפחה שלך? ילדים, נהיים?
+[0:03:29] יש לי בנים, משימים, הם פשוט גרים רחוק ממני.
+[0:03:33] אוקיי, הם באים לבקר?
+[0:03:36] הם באים לבקר?
+[0:03:38] הם באים מידי פעם לבקר. תתקשר להם, הם רחוקים.
+[0:03:49] אני רוצה לבדוק את הרגל אבל אני חושבת שזה משקחי גבים חזקים יותר
+[0:03:55] תודה, אנחנו נכון למסיים, זה בספיקי
+[0:04:02] נשאר לך עוד שאלות עוד פעולות
+[0:04:05] תודה.
+

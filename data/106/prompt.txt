@@ -1,0 +1,113 @@
+
+You are reviewing a Hebrew-language nursing simulation dialogue.
+Each of the three transcripts comes from a different camera angle or microphone and may contain only part of the conversation.
+The transcriptions were generated automatically using Whisper, so they may include errors such as:
+- Missing or incomplete sentences
+- Repeated or disfluent phrases
+- Slight timing misalignment
+
+Your task is to reconstruct a **clean, coherent, and chronologically accurate** transcript using the following rules:
+
+1. **Use the timestamps ([HH:MM:SS])** to place lines in the correct order. Reconstruct the conversation sequence based on time, even if the lines appear in different transcripts.
+2. **Do NOT add or imagine content.** Only use what appears in the provided transcripts.
+3. **Fix transcription errors where appropriate, but retain as much of the original information as possible.** Prioritize keeping all clinically or contextually meaningful content from the transcripts, even if phrased imperfectly. Only omit redundant, broken, or clearly meaningless lines.
+4. **Assign speaker roles** based on content and context. Use only these roles:
+   - `Nurse`
+   - `Patient`
+5. Do NOT alternate roles mechanically. Assign roles based on what is said.
+6. If the same line appears in more than one transcript, **merge or choose the clearest version**. Avoid duplication.
+7. Keep the transcript in a natural, readable flow that resembles a real dialogue.
+8. **Fix malformed Hebrew words** when clearly misrecognized (e.g., "להתעברר" → "להתאוורר"), but do not invent content.
+9. Preserve **simulation-side comments** (like when the nurse speaks to herself, to colleagues, or refers to the patient in third person such as “אותה”). These are **in-character clinical planning remarks**, not spoken to the patient. Keep them in the flow and tag them as `Nurse`, not as OOC.
+10. If someone speaks **outside of character (OOC)** — for example, asking instructors, reacting to simulation errors, or breaking the scene — keep the line, and **tag it clearly** as one of:
+    - `Nurse (OOC)`
+    - `Patient (OOC)`
+11. Treat repeated "תודה רבה" at the end or start of the transcripts as likely Whisper artifacts — omit them from the final merged transcript unless clearly part of the dialogue.
+
+Return only the cleaned and role-tagged transcript in the following format:
+[HH:MM:SS] Role: Sentence
+
+Here are the raw transcripts:
+TRANSCRIPT 1:
+[0:00:00] ‫כן, אני בקמאריה ככה, ‫את אומרת, רק את כולך.
+[0:00:03] ‫כן.
+[0:00:09] ‫כאילו, להרגיש את הסיטואציה, ‫מה? ‫-הסיטואציה רגילה.
+[0:00:14] ‫אז אם אני רוצה לשאול מישהו, ‫כאילו, את עולה לי, אה, אוקיי.
+[0:00:19] ‫את לא מתיינסת? ‫-זהו.
+[0:00:24] ‫היי, שלום. ‫מה קרה? מי אתה פה?
+[0:00:30] את לבד? אין בן משפחה או מישהו? מה קרה? את יכולה לדבר איתי?
+[0:00:34] את בהכרה? היא בהכרה? היא שומעת אותי?
+[0:00:37] מה קרה גברת? תספירי לי. מי היה איתך בבית?
+[0:00:42] נפלת? איך נפלת?
+[0:00:49] ועכשיו איך את מרגישה? אני מסתכלת עליי. היא בסדר? היא בהכרה? היא שומעת?
+[0:00:54] את הכל טוב ויש לה קשי נשימה או משהו?
+[0:01:01] יש לך כאבים ברגל
+[0:01:03] בוא אני מסתכל על הרגל
+[0:01:05] הכל טוב ברגל
+[0:01:06] יש חבישה
+[0:01:06] שמו לה כאילו את החבישה באמבולנס
+[0:01:10] כן אני מסתכל
+[0:01:12] יש משהו ברגל כאילו
+[0:01:13] מתחת לחבישה
+[0:01:16] כואב לך מאוד
+[0:01:17] בסדר אני אקח לה מדדים
+[0:01:20] אני מסתכל
+[0:01:22] המדדים קינים
+[0:01:24] אז
+[0:01:24] אז אני אבקש משהו, אני אביא לך משהו לכאיבים שירגע אותך
+[0:01:30] ואחר כך נמשיך כאילו...
+[0:01:33] סבבה, יש לך רגישות למשהו? את יודעת אולי?
+[0:01:37] לא, אין לי רגישות.
+[0:01:38] אין רגישות? סבבה, אני מביאה לה נגיד אקמול דרך הבריד, יש לה בריד, פתחו לה כאילו באמבולנס בריד?
+[0:01:48] לא, לא פתחו לי, תראה.
+[0:01:49] אז סבבה, אז נפתח לה וריד, וניתן לה משהו דרך הווריד, עקמול אולי?
+[0:01:57] בסדר? כי יגיע לך ממש מהר, ותשאל...
+[0:02:00] את האמת, אני לא שמעת טוב, ובקושי שומעת. לא שמעתי.
+[0:02:18] הכל טוב חמודה אנחנו פה בשבילך
+[0:02:21] בסדר אני אביא לך משהו לכאיבים
+[0:02:23] ואז נמשיך להתאפל בך כמו שצריך
+[0:02:25] בסדר?
+[0:02:30] סיון?
+[0:02:35] טוב?
+[0:02:36] טוב בקצב
+[0:02:37] ‫כן, כן, בקצר. ‫-כן.
+[0:02:39] ‫כאילו, אבל היה לי קשה לשמוע, ‫הייתי ממש תזכרת.
+[0:02:42] ‫כן, אני חושבת שזהו כזה טוב.
+
+
+TRANSCRIPT 2:
+
+
+TRANSCRIPT 3:
+[0:00:00] ‫כן, ראית את המראה ככה, ‫את המערכת הקבוצה.
+[0:00:04] ‫סמייה.
+[0:00:09] ‫כן, להרגיש את הסיטואציה, מה? ‫-הסיטואציה רגילה.
+[0:00:14] ‫אז אם אני רוצה לשאול מישהו... ‫את עולה לי? אה, אוקיי.
+[0:00:24] ‫היי, שלום. מה קרה? מי אתה פה?
+[0:00:30] את עבד? אין בין משפחה או מישהו? מה קרה? את יכולה לדבר איתי?
+[0:00:34] את בהכרעה? היא בהכרעה? היא שומעת אותי?
+[0:00:37] מה קרה גבר? תספירי לי. מי היה איתך בבית?
+[0:00:42] נפלת? איך נפלת?
+[0:00:49] ועכשיו איך את מרגישה? אני מסתכלת עליי. היא בסדר? היא בהכרעה? היא שומעת?
+[0:00:54] הכל טוב? ויש לה קשי נשימה או משהו?
+[0:01:02] יש לך כאבים ברגל, בוא אני אסתכל על הרגל, הכל טוב ברגל, יש חבישה, שמו לה כאילו את החבישה באמבולנס?
+[0:01:10] כן, אני מסתכלת, יש משהו ברגל כאילו, מתחת לחבישות?
+[0:01:16] כואב לך מאוד? בסדר, אני אקח לה מדדים.
+[0:01:25] אני אבקש שאני אביא לך משהו לכאבים שירגע אותך ואחר כך נמשיך כאילו
+[0:01:33] סבבה, יש לך רגישות למשהו? את יודעת אולי?
+[0:01:37] לא, אין לי רגישות
+[0:01:38] אין רגישות? סבבה אני מביאה לה נגידה כמול דרך הבריד
+[0:01:44] יש לה בריד, פתחו לה כאילו באמבולנס בריד
+[0:01:49] אז סבבה, אז נפתח לה וריד
+[0:01:52] וניתן לה משהו דרך הווריד
+[0:01:54] הכמול אולי
+[0:01:56] בסדר?
+[0:01:58] כי יגיע לך ממש מהר
+[0:01:59] ותשאל
+[0:02:07] באמת אני לא שומעת טוב
+[0:02:08] ובקושי שומעת
+[0:02:10] לא שמעתי
+[0:02:19] הכל טוב חמודה, אנחנו בואו בשבילך. בסדר? אני אביא לך משהו לכאיבים ואז נמשיך לטפל בך כמו שצריך. בסדר?
+[0:02:26] בסדר, תודה.
+[0:02:42] תודה.
+
