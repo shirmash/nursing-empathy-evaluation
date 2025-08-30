@@ -30,9 +30,6 @@ https://nursing-empathy-evaluation-il.streamlit.app/
 - Keep patient privacy in mind when sharing transcripts.
 
 
-> **Heads-up:** Transcripts are auto-generated and can miss a word here or there. Use your clinical judgment and correct anything that looks off.
-
-
 - **OpenAI API key** – required for:
   - **Combine**: merges all transcripts into a single, time-ordered Nurse/Patient conversation (uses **GPT-4o**).
   - **Empathy check**: 1–5 score with brief justification focused on the nurse’s lines (uses **GPT-4o**).
