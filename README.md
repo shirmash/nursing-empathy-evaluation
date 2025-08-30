@@ -126,12 +126,22 @@ Levenshtein
 ## Project structure
 
 ```
+Project structure
 .
-├─ app.py            # Streamlit UI (auto-combine + assess)
-├─ gpt_utils.py      # OpenAI v1 helpers (GPT-4o, empathy template)
-├─ pipeline.py       # (optional) local Whisper path if you keep it
-├─ requirements.txt
-└─ README.md
+├─ README.md
+├─ app.py              # Streamlit UI (auto-combine + empathy)
+├─ gpt_utils.py        # OpenAI helpers/templates
+├─ pipeline.py         # helper fucntion
+├─ requirements.txt    # Python deps
+├─ packages.txt        # System packages for deploy (e.g., ffmpeg)
+├─ runtime.txt         # Python version pin for hosting
+├─ screenshots/        # Images used in README
+├─ graphs/             # Diagrams/figures referenced in paper
+├─ code/               # Extra scripts/notebooks
+├─ data/               # video,prompts,and transcripts
+├─ .devcontainer/      # VS Code dev container config
+└─ .gitignore
+
 ```
 
 
