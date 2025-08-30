@@ -80,7 +80,8 @@ Put this in `requirements.txt`:
 streamlit>=1.36
 openai>=1.40.0
 pydub>=0.25.1
-imageio-ffmpeg>=0.4.9
+openai-whisper
+Levenshtein
 ```
 
 > Optional local path (only if you want Whisper on your own machine):
@@ -112,13 +113,6 @@ imageio-ffmpeg>=0.4.9
 └─ README.md
 ```
 
----
 
-## How it works (high level)
 
-1) **Transcribe**: Extract audio → split into ~5-minute chunks → call `gpt-4o-transcribe` → stitch text with timestamps.  
-2) **Combine**: Merge all transcripts into a single, chronological, role-tagged dialogue.  
-3) **Assess**: Apply the Hebrew empathy template to **Nurse** lines only and return a one-line score with reasons.
-
----
 
